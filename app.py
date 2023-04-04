@@ -1,7 +1,5 @@
-import json
 import os
 import openai
-from pprint import pprint
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
 
@@ -35,13 +33,11 @@ def submit():
 
     response = response.replace('\n', '').split('Day')[1:]
     response = process_response(response)
-    # print(response)
 
     return render_template("response.html", response=response, country=country)
 
 
 def process_response(response):
-    pprint(response)
     response = list([[item.split('.')[0], '.'.join(item.split('.')[1:])]for item in response])
     return response
 
