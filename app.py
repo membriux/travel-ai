@@ -7,6 +7,7 @@ app = Flask(__name__)
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -40,6 +41,7 @@ def submit():
 def process_response(response):
     response = list([[item.split('.')[0], '.'.join(item.split('.')[1:])]for item in response])
     return response
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
