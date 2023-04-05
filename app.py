@@ -10,11 +10,25 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 
 @app.route("/")
 def home():
+    """Renders the home page.
+
+    Returns:
+        The rendered home page template.
+    """
     return render_template("home.html")
 
 
 @app.route("/submit", methods=["POST"])
 def submit():
+    """Handles the submission of the form on the home page.
+
+    Retrieves the location, activities and length of trip from the form data.
+    Sends an API request to OpenAI to generate a travel itinerary based on the form data.
+    Processes the response from OpenAI and renders the response page with the generated itinerary.
+
+    Returns:
+        The rendered response page template with the generated itinerary.
+    """
     location = request.form.get("location")
     activities = request.form.get("activities")
     length = request.form.get("length")
@@ -32,7 +46,6 @@ def submit():
         temperature=0.2,
     ).choices[0].text
 
-    response = response.replace('\n', '').split('Day')[1:]
     response = process_response(response)
 
     return render_template("response.html",
@@ -45,6 +58,17 @@ def submit():
 
 
 def process_response(response):
+    """Processes the response from OpenAI.
+
+    Splits the response into a list of lists where each inner list contains the day number and the itinerary for that day.
+
+    Args:
+        response: The response from OpenAI.
+
+    Returns:
+        The processed response as a list of lists.
+    """
+    response = response.replace('\n', '').split('Day')[1:]
     response = list([[item.split('.')[0], '.'.join(item.split('.')[1:])] for item in response])
     return response
 
