@@ -24,12 +24,12 @@ def submit():
              f"Each day MUST look exactly like this: " \
              f"Day 4: Roatán Island. Take a ferry or a short flight to Roatán Island, one of Honduras' most popular tourist destinations. Roatán Island is a Caribbean paradise located off the northern coast of Honduras. Known for its stunning beaches, crystal-clear waters, and vibrant coral reefs, it is a popular destination for snorkeling, scuba diving, and other water activities. The island also offers a range of restaurants, bars, and accommodations to suit any budget. Spend the day exploring the island, snorkeling, or scuba diving in the coral reefs."
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine="text-davinci-003",
         prompt=prompt,
         max_tokens=1024,
         n=1,
         stop=None,
-        temperature=0.7,
+        temperature=0.2,
     ).choices[0].text
 
     response = response.replace('\n', '').split('Day')[1:]
